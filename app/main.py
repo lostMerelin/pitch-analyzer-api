@@ -14,10 +14,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://pitch-analyzer.netlify.app",
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:5500",
         "http://127.0.0.1:5500",
+        "http://localhost:5500",
     ],
     allow_credentials=True,
     allow_methods=["*"],
