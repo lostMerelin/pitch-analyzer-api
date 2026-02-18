@@ -1,9 +1,15 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 
-app = FastAPI(title="Pitch Analyzer API", version="0.1.0")
+app = FastAPI(
+    title="Pitch Analyzer API",
+    version="0.1.0",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json",
+)
 
-# CORS: разрешаем фронтенд Netlify + локальную разработку
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -18,13 +24,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def root():
+    return RedirectResponse(url="/docs")
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
 
 @app.post("/analyze")
 async def analyze(file: UploadFile = File(...)):
-    # Заглушка: позже добавим реальный анализ
     return {
         "filename": file.filename,
         "root_note": None,
